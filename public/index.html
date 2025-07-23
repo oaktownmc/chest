@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>oak chest</title>
+  <meta property="og:title" content="oak chest" />
+  <meta property="og:description" content="free file sharing service!" />
+  <meta property="og:url" content="https://chest.oaktown.cc" />
+  <meta property="og:image" content="chest.png" />
+  <meta name="theme-color" content="#57332f" data-react-helmet="true"  />
+  <link rel="icon" type="image/png" href="chest.png">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <img src="oakchest.png" height="60" style="padding-bottom:1rem" />
+    <form id="uploadForm">
+      <label id="dropzone">
+        <input type="file" id="fileInput" name="file" required />
+        <div class="drop-text" id="dropText">Drag files here<br>or click to upload</div>
+      </label>
+      <button style="width: 200px; height: 50px;" class="serverButton" type="submit">Upload</button>
+    </form>
+    <div id="result"></div>
+    <button style="width: 100px; height: 30px; margin-top:1rem" class="serverButton" onclick="window.open('rules.html','_self')">Rules</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

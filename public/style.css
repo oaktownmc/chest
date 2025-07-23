@@ -1,0 +1,124 @@
+@font-face {
+  font-family: tf2;
+  src: url(fonts/TF2.woff) format('woff'),
+       url(fonts/TF2.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: tf2sec;
+  src: url(fonts/TF2Secondary.woff) format('woff'),
+       url(fonts/TF2Secondary.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: tf2build;
+  src: url(fonts/TF2Build.woff) format('woff'),
+       url(fonts/TF2Build.woff2) format('woff2');
+}
+
+body {
+  font-family: tf2sec;
+  background-image: url(https://oaktown.cc/assets/darkoak.png);
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  color: white;
+}
+
+h1 {font-family: tf2build;}
+
+.container {
+  background-color: #333;
+  border-radius: 10px;
+  padding: 2rem;
+  text-align: center;
+  width: 320px;
+}
+
+#dropzone input[type="file"] {
+  display: none;
+}
+
+#dropzone {
+  display: block;
+  background-color: #444;
+  border: 2px dashed #aaa;
+  border-radius: 8px;
+  padding: 2rem;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s, border-color 0.2s;
+  margin-bottom: 1rem;
+}
+
+#dropzone.dragover {
+  background-color: #555;
+  border-color: white;
+}
+
+.drop-text {
+  font-size: 1rem;
+  color: #ccc;
+  line-height: 1.5;
+}
+
+.serverButton {
+  display: inline-block;
+  
+  outline: 0;
+  border: 0;
+
+  cursor: pointer;
+  
+  height: var(--server-button-height);
+  padding: var(--server-button-padding);
+	margin: var(--server-button-margin);
+  
+  border-radius: 50px;
+  background-image: linear-gradient(0deg, #612400, #9c5f3c);
+  
+  box-shadow: 0 4px 11px 0 rgb(37 44 97 / 15%),
+  0 1px 3px 0 rgb(93 100 148 / 20%);
+  
+  transition: all 0.2s ease-out;
+  
+  font-family: tf2;
+  font-size: large;
+  font-weight: 600;
+  color: #fff;
+  
+  text-shadow: var(--text-shadow);
+	text-decoration: none;
+
+  user-select: none;
+}
+
+.serverButton:hover {
+  box-shadow: 0 8px 22px 0 rgb(37 44 97 / 15%),
+    0 4px 6px 0 rgb(93 100 148 / 20%);
+	text-shadow: 0px 0px 5px currentColor;
+}
+
+.serverButton:hover .info,
+.serverButton:hover .dynmap {
+	filter: drop-shadow(0px 0px 3px currentColor);
+}
+
+.serverButton:active {
+	filter: brightness(0.85);
+	transform: translateY(2px);
+}
+
+.serverButton:link {
+	color: rgb(255, 255, 255);
+}
+
+#result {
+  margin-top: 1rem;
+  word-break: break-all;
+}
+#result a {
+  color: #007bff;
+}
