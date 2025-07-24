@@ -1,4 +1,4 @@
-# <img src="https://chest.oaktown.cc/oakchest.png" height="60" />
+# <img src="https://github.com/oaktownmc/chest/blob/master/static/oakchest.png?raw=true" alt="oak chest" height="60" />
 a free file sharing service! source code for https://chest.oaktown.cc
 ## self-hosting
 you will need nginx. here is the server config:
