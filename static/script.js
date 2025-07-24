@@ -32,6 +32,15 @@ function formatBytes(bytes) {
   return `${size.toFixed(index === 0 ? 0 : 2)} ${units[index]}`;
 }
 
+const escapeHTML = unsafe => {
+  return unsafe
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+};
+
 form.addEventListener("submit", async e => {
   e.preventDefault();
   if (!fileInput.files.length) return;
@@ -84,7 +93,7 @@ form.addEventListener("submit", async e => {
 function updateDropText(file) {
   const dropText = document.getElementById("dropText");
   const size = formatBytes(file.size);
-  dropText.innerHTML = `<strong>${file.name}</strong><br>${size}`;
+  dropText.innerHTML = `<strong>${escapeHTML(file.name)}</strong><br>${escapeHTML(size)}`;
 }
 
 dropzone.addEventListener("drop", e => {
