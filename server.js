@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const mime = require('mime');
 const app = express();
 
 const uid = () => {
@@ -49,7 +50,22 @@ app.post('/upload', upload.single('file'), (req, res) => {
   res.json({ url: fileUrl });
 });
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', (req, res, next) => {
+  const filePath = path.join(__dirname, 'uploads', decodeURIComponent(req.path));
+  fs.stat(filePath, (err, stats) => {
+    if (err || !stats.isFile()) {
+      return res.status(404).send('File not found.');
+    }
+    const type = mime.getType(filePath) || 'application/octet-stream';
+    
+    res.setHeader('Content-Type', type);
+    res.setHeader('Content-Length', stats.size);
+    res.setHeader('Accept-Ranges', 'bytes');
+
+    const readStream = fs.createReadStream(filePath);
+    readStream.pipe(res);
+  });
+});
 
 app.use((err, req, res, next) => {
   if (err.code === 'LIMIT_FILE_SIZE') {
