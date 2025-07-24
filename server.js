@@ -2,10 +2,11 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const crypto = require('crypto');
+const fs = require('fs');
 const app = express();
 
 const generateName = () => {
-  const hex = Math.floor(Date.now() / 1000).toString(16);
+  const hex = Math.floor(new Date() / 1000).toString(16);
   const map = {
     '0': 'A', '1': 'B', '2': 'C', '3': 'D',
     '4': 'E', '5': 'F', '6': 'G', '7': 'H',
@@ -39,7 +40,7 @@ app.use(express.static('public'));
 
 app.post('/upload', upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file uploaded.' });
-  const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+  const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${encodeURIComponent(req.file.filename)}`;
   res.json({ url: fileUrl });
 });
 
@@ -51,6 +52,10 @@ app.use((err, req, res, next) => {
   }
   next(err);
 });
+
+if (!fs.existsSync('uploads/')) {
+  fs.mkdirSync('uploads/');
+}
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`running on http://localhost:${PORT}`));
