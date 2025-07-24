@@ -1,0 +1,27 @@
+{% extends "templates/base.njk" %}
+
+{% block head %}
+  <title>oak chest</title>
+  <meta property="og:title" content="oak chest" />
+  <meta property="og:description" content="free file sharing service!" />
+  <meta property="og:url" content="https://chest.oaktown.cc" />
+  <meta property="og:image" content="/assets/chest.png" />
+  <meta name="theme-color" content="#57332f" data-react-helmet="true"  />
+{% endblock %}
+
+
+{% block body %}
+  <div class="container">
+    <img src="/assets/oakchest.png" alt="oak chest" class="logo" />
+    <form id="uploadForm">
+      <label id="dropzone">
+        <input type="file" id="fileInput" name="file" />
+        <div id="dropText">Drag files here or click to upload</div>
+      </label>
+      <button style="width: 200px; height: 50px" class="serverButton" type="submit">Upload</button>
+    </form>
+    <div id="result"></div>
+    <button style="width: 150px; height: 30px; margin-top: 1rem" class="serverButton"><a href="/rules" target="_self">Rules & Info</a></button>
+  </div>
+  <script src="/assets/script.js"></script>
+{% endblock %}

@@ -1,40 +1,47 @@
 @font-face {
-  font-family: tf2;
-  src: url(fonts/TF2.woff) format('woff'),
-       url(fonts/TF2.woff2) format('woff2');
+  font-family: "TF2";
+  src: url("/assets/fonts/TF2.woff") format("woff"),
+       url("/assets/fonts/TF2.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: tf2sec;
-  src: url(fonts/TF2Secondary.woff) format('woff'),
-       url(fonts/TF2Secondary.woff2) format('woff2');
+  font-family: "TF2 Secondary";
+  src: url("/assets/fonts/TF2Secondary.woff") format("woff"),
+       url("/assets/fonts/TF2Secondary.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: tf2build;
-  src: url(fonts/TF2Build.woff) format('woff'),
-       url(fonts/TF2Build.woff2) format('woff2');
+  font-family: "TF2 Build";
+  src: url("/assets/fonts/TF2Build.woff") format("woff"),
+       url("/assets/fonts/TF2Build.woff2") format("woff2");
 }
 
 body {
-  font-family: tf2sec;
-  background-image: url(https://oaktown.cc/assets/darkoak.png);
+  font-family: "TF2 Secondary";
+  background-image: url("/assets/darkoak.png");
   display: flex;
   height: 100vh;
   align-items: center;
   justify-content: center;
   margin: 0;
-  color: white;
+  color: #fff;
 }
 
-h1 {font-family: tf2build;}
+h1 {font-family: "TF2 Build";}
+
+.logo {
+  display: block;
+  width: 75%;
+  margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .container {
   background-color: #333;
   border-radius: 10px;
   padding: 2rem;
-  text-align: center;
-  width: 320px;
+  width: 500px;
 }
 
 #dropzone input[type="file"] {
@@ -58,37 +65,40 @@ h1 {font-family: tf2build;}
   border-color: white;
 }
 
-.drop-text {
+#dropText {
   font-size: 1rem;
   color: #ccc;
   line-height: 1.5;
 }
 
 .serverButton {
-  display: inline-block;
-  
+  display: block;
+
   outline: 0;
   border: 0;
 
   cursor: pointer;
-  
+
   height: var(--server-button-height);
   padding: var(--server-button-padding);
-	margin: var(--server-button-margin);
-  
+  margin-left: auto;
+  margin-right: auto;
+
   border-radius: 50px;
   background-image: linear-gradient(0deg, #612400, #9c5f3c);
-  
+
   box-shadow: 0 4px 11px 0 rgb(37 44 97 / 15%),
-  0 1px 3px 0 rgb(93 100 148 / 20%);
-  
+              0 1px 3px 0 rgb(93 100 148 / 20%);
+
   transition: all 0.2s ease-out;
-  
-  font-family: tf2;
+
+  text-align: center;
+
+  font-family: "TF2";
   font-size: large;
   font-weight: 600;
   color: #fff;
-  
+
   text-shadow: var(--text-shadow);
 	text-decoration: none;
 
@@ -97,7 +107,7 @@ h1 {font-family: tf2build;}
 
 .serverButton:hover {
   box-shadow: 0 8px 22px 0 rgb(37 44 97 / 15%),
-    0 4px 6px 0 rgb(93 100 148 / 20%);
+              0 4px 6px 0 rgb(93 100 148 / 20%);
 	text-shadow: 0px 0px 5px currentColor;
 }
 
@@ -111,8 +121,12 @@ h1 {font-family: tf2build;}
 	transform: translateY(2px);
 }
 
-.serverButton:link {
-	color: rgb(255, 255, 255);
+.serverButton a {
+  text-decoration: none;
+}
+
+a {
+  color: #fff;
 }
 
 #result {

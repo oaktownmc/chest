@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^5.1.0",
-    "multer": "^2.0.2"
+    "mime": "^4.0.7",
+    "multer": "^2.0.2",
+    "nunjucks": "^3.2.4"
   }
 }

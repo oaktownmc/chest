@@ -3,7 +3,17 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const mime = require('mime');
+const nunjucks = require('nunjucks');
+
 const app = express();
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'njk');
+
+nunjucks.configure('views', {
+    autoescape: true,
+    express: app
+});
 
 const uid = () => {
   const hex = Math.floor(new Date() / 1000).toString(16);
@@ -34,7 +44,13 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 * 1024 }
 });
 
-app.use(express.static('public'));
+app.get('/', (req, res) => {
+  res.render('pages/index');
+});
+
+app.get('/rules', (req, res) => {
+  res.render('pages/rules');
+});
 
 app.post('/upload', upload.single('file'), (req, res) => {
   if (!req.file) {
@@ -43,7 +59,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   const logMessage = `[${new Date().toISOString()}] ${ip} uploaded "${req.file.filename}"\n`;
   console.log(logMessage);
-  fs.appendFile(path.join(__dirname, 'uploads.log'), logMessage, err => {
+  fs.appendFile('uploads.log', logMessage, err => {
     if (err) console.error('Error writing to log file:', err);
   });
   let fileUrl = `${req.protocol}://${req.get('host')}/uploads/${encodeURIComponent(req.file.filename)}`;
@@ -53,21 +69,8 @@ app.post('/upload', upload.single('file'), (req, res) => {
   res.json({ url: fileUrl });
 });
 
-
-app.use('/uploads', (req, res, next) => {
-  const filePath = path.join(__dirname, 'uploads', decodeURIComponent(req.path));
-  fs.stat(filePath, (err, stats) => {
-    if (err || !stats.isFile()) {
-      return res.status(404).send('File not found.');
-    }
-    const type = mime.getType(filePath) || 'application/octet-stream';
-    res.setHeader('Content-Type', type);
-    res.setHeader('Content-Length', stats.size);
-    res.setHeader('Accept-Ranges', 'bytes');
-    const readStream = fs.createReadStream(filePath);
-    readStream.pipe(res);
-  });
-});
+app.use('/assets', express.static('static'));
+app.use('/uploads', express.static('uploads'));
 
 app.use((err, req, res, next) => {
   if (err.code === 'LIMIT_FILE_SIZE') {
