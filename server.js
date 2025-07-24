@@ -2,7 +2,6 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const mime = require('mime');
 const nunjucks = require('nunjucks');
 
 const app = express();
