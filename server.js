@@ -60,6 +60,8 @@ app.use('/uploads', (req, res, next) => {
     const type = mime.getType(filePath) || 'application/octet-stream';
     const fileSize = stats.size;
 
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
     if (range) {
       const parts = range.replace(/bytes=/, '').split('-');
       const start = parseInt(parts[0], 10);
@@ -78,7 +80,8 @@ app.use('/uploads', (req, res, next) => {
         'Accept-Ranges': 'bytes',
         'Content-Length': chunkSize,
         'Content-Type': type,
-        'Content-Disposition': 'inline'
+        'Content-Disposition': 'inline',
+        'Access-Control-Allow-Origin': '*'
       });
 
       stream.pipe(res);
@@ -87,13 +90,16 @@ app.use('/uploads', (req, res, next) => {
         'Content-Length': fileSize,
         'Content-Type': type,
         'Accept-Ranges': 'bytes',
-        'Content-Disposition': 'inline'
+        'Content-Disposition': 'inline',
+        'Access-Control-Allow-Origin': '*'
       });
 
       fs.createReadStream(filePath).pipe(res);
     }
   });
 });
+
+
 app.use((err, req, res, next) => {
   if (err.code === 'LIMIT_FILE_SIZE') {
     return res.status(413).json({ error: 'File exceeds 5 GB limit.' });
