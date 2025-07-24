@@ -46,9 +46,13 @@ app.post('/upload', upload.single('file'), (req, res) => {
   fs.appendFile(path.join(__dirname, 'uploads.log'), logMessage, err => {
     if (err) console.error('Error writing to log file:', err);
   });
-  const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${encodeURIComponent(req.file.filename)}`;
+  let fileUrl = `${req.protocol}://${req.get('host')}/uploads/${encodeURIComponent(req.file.filename)}`;
+  if (path.extname(req.file.filename).toLowerCase() === '.mp4') {
+    fileUrl += '?v';
+  }
   res.json({ url: fileUrl });
 });
+
 
 app.use('/uploads', (req, res, next) => {
   const filePath = path.join(__dirname, 'uploads', decodeURIComponent(req.path));
