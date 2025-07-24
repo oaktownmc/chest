@@ -55,16 +55,20 @@ app.post("/upload", upload.single("file"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded." });
   }
+
   const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+
   const logMessage = `[${new Date().toISOString()}] ${ip} uploaded "${req.file.filename}"\n`;
   console.log(logMessage);
   fs.appendFile("uploads.log", logMessage, err => {
     if (err) console.error("Error writing to log file:", err);
   });
+
   let fileUrl = `${req.protocol}://${req.get("host")}/uploads/${encodeURIComponent(req.file.filename)}`;
   if (path.extname(req.file.filename).toLowerCase() === ".mp4") {
     fileUrl += "?v";
   }
+
   res.json({ url: fileUrl });
 });
 
