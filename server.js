@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 const app = express();
 
-const generateName = () => {
+const uid = () => {
   const hex = Math.floor(new Date() / 1000).toString(16);
   const map = {
     '0': 'A', '1': 'B', '2': 'C', '3': 'D',
@@ -15,19 +15,17 @@ const generateName = () => {
   return [...hex].map(c => map[c] || c).join('');
 };
 
+const generateName = (filename) => {
+  const ext = path.extname(filename);
+  const basename = path.basename(filename, ext);
+
+  return `${basename}_${uid()}${ext}`;
+};
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'uploads/'),
   filename: (req, file, cb) => {
-    const parts = file.originalname.split('.');
-
-    if (parts.length < 2) {
-      return cb(null, file.originalname + generateName());
-    }
-
-    const first = parts.shift();
-    const rest = parts.join('.');
-    const name = `${first}_${generateName()}.${rest}`;
-    cb(null, name);
+    cb(null, generateName(file.originalname));
   }
 });
 
@@ -44,7 +42,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
   }
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   console.log(`[${ip}] uploaded [${req.file.filename}]`);
-  const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+  const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${encodeURIComponent(req.file.filename)}`;
   res.json({ url: fileUrl });
 });
 
