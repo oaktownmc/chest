@@ -33,14 +33,18 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 * 1024 } // 5 GB
+  limits: { fileSize: 5 * 1024 * 1024 * 1024 }
 });
 
 app.use(express.static('public'));
 
 app.post('/upload', upload.single('file'), (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'No file uploaded.' });
-  const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${encodeURIComponent(req.file.filename)}`;
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded.' });
+  }
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  console.log(`[${ip}] uploaded [${req.file.filename}]`);
+  const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
   res.json({ url: fileUrl });
 });
 
