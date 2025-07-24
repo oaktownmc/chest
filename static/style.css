@@ -121,12 +121,8 @@ h1 {font-family: "TF2 Build";}
 	transform: translateY(2px);
 }
 
-.serverButton a {
+:link:has(.serverButton) {
   text-decoration: none;
-}
-
-a {
-  color: #fff;
 }
 
 #result {
