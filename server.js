@@ -42,7 +42,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   const logMessage = `[${new Date().toISOString()}] ${ip} uploaded "${req.file.filename}"\n`;
   console.log(logMessage);
-  fs.appendFile(path.join(__dirname, 'upload.log'), logMessage, err => {
+  fs.appendFile(path.join(__dirname, 'uploads.log'), logMessage, err => {
     if (err) console.error('Error writing to log file:', err);
   });
   const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${encodeURIComponent(req.file.filename)}`;
