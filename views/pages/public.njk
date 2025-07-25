@@ -1,0 +1,22 @@
+{% extends "templates/base.njk" %}
+{% from "../components/nav.njk" import nav %}
+
+{% block head %}
+  <title>oak chest</title>
+  <meta property="og:title" content="oak chest | public chest" />
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <h1>Public Chest</h1>
+    <ul>
+      {% for file in publicUploads %}
+        <li>
+          <a href="/uploads/{{ file.filename }}" target="_blank">{{ file.original_filename }}</a>
+          <small>uploaded {{ file.create_time | time_format | escape }}</small>
+        </li>
+      {% endfor %}
+    </ul>
+    {{ nav("public") }}
+  </div>
+{% endblock %}

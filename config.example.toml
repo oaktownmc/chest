@@ -1,0 +1,11 @@
+# rename this file to config.toml
+[server]
+port = 3000
+
+[[bans]]
+ip = "1.1.1.1"
+reason = "idiot"
+
+[[bans]]
+ip = "2.2.2.2"
+reason = "idiot 2"

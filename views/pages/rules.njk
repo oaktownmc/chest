@@ -1,13 +1,9 @@
 {% extends "templates/base.njk" %}
+{% from "../components/nav.njk" import nav %}
 
 {% block head %}
   <title>oak chest | rules</title>
   <meta property="og:title" content="oak chest | rules" />
-  <meta property="og:description" content="free file sharing service!" />
-  <meta property="og:url" content="https://chest.oaktown.cc" />
-  <meta property="og:image" content="chest.png" />
-  <meta name="theme-color" content="#57332f" data-react-helmet="true"  />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 {% endblock %}
 
 {% block body %}
@@ -28,6 +24,6 @@
         <li>Curl command: <code>curl -F "file=@path/to/file.txt" https://chest.oaktown.cc/upload</code></li>
       </ul>
     </p>
-    <a href="/" style="width: 100px; height: 30px; margin-top:1rem" class="serverButton">Back</a>
+    {{ nav("rules") }}
   </div>
 {% endblock %}

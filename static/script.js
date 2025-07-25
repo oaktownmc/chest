@@ -53,6 +53,8 @@ form.addEventListener("submit", async e => {
   formData.append("file", fileInput.files[0]);
 
   try {
+    const makePublic = document.getElementById('publicChest').checked;
+    formData.append('publicChest', makePublic);
     const res = await fetch("/upload", { method: "POST", body: formData });
     const data = await res.json();
     if (data.error) throw new Error(data.error);

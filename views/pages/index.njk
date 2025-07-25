@@ -1,14 +1,10 @@
 {% extends "templates/base.njk" %}
+{% from "../components/nav.njk" import nav %}
 
 {% block head %}
   <title>oak chest</title>
-  <meta property="og:title" content="oak chest" />
-  <meta property="og:description" content="free file sharing service!" />
-  <meta property="og:url" content="https://chest.oaktown.cc" />
-  <meta property="og:image" content="/assets/chest.png" />
-  <meta name="theme-color" content="#57332f" data-react-helmet="true"  />
+  <meta property="og:title" content="oak chest | home" />
 {% endblock %}
-
 
 {% block body %}
   <div class="container">
@@ -18,10 +14,11 @@
         <input type="file" id="fileInput" name="file" />
         <div id="dropText">Drag files here or click to upload</div>
       </label>
+      <label><input type="checkbox" name="publicChest" id="publicChest"> Add to the public chest?</label>
       <button style="width: 200px; height: 50px" class="serverButton" type="submit">Upload</button>
     </form>
     <div id="result"></div>
-    <a href="/rules" style="width: 150px; height: 30px; margin-top: 1rem" class="serverButton">Rules & Info</a>
+    {{ nav("home") }}
   </div>
   <script src="/assets/script.js"></script>
 {% endblock %}

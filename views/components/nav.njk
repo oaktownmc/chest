@@ -1,0 +1,12 @@
+{% macro nav(selected) -%}
+    <nav>
+        {% set links = [
+            { id: "home", href: "/", label: "home" },
+            { id: "rules", href: "/rules", label: "rules & info" },
+            { id: "public", href: "/public", label: "public chest" }
+        ] %}
+        {% for index, link in links.entries() -%}
+            <a {% if selected == link.id %}class="nav-active" {% endif %}href="{{ link.href }}">{{ link.label }}</a>{% if index != links.length - 1 %} | {% endif %}
+        {%- endfor %}
+    </nav>
+{%- endmacro %}
