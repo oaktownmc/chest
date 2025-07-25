@@ -50,12 +50,8 @@ nav {
   margin-right: auto;
 }
 
-a:link {
+a {
   color: green;
-}
-
-a:visited {
-  color: darkgreen;
 }
 
 a:hover {
@@ -68,6 +64,7 @@ a:active {
 
 .nav-active {
   font-weight: bold;
+  font-style: italic;
 }
 
 #dropzone input[type="file"] {
