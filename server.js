@@ -93,7 +93,8 @@ app.post("/upload", upload.single("file"), (req, res) => {
   const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
 
   // kill your mouth
-  const ban = config.bans.find(ban => ip.replace("::ffff:", "") === ban.ip); 
+  const bans = config.bans || [];
+  const ban = bans.find(ban => ip.replace("::ffff:", "") === ban.ip);
   if (ban) {
     return res.status(403).json({ error: "Banned.", reason: ban.reason || "" });
   }
