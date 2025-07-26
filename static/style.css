@@ -139,5 +139,32 @@ a:active {
 
 #result {
   margin-top: 1rem;
+  margin-bottom: 1rem;
   word-break: break-all;
+}
+
+td, th {
+  text-align: center;
+  padding-bottom: 7px;
+  padding-top: 7px;
+}
+
+tr:nth-child(even), th {
+  background-color: #222;
+}
+
+table {
+  margin: auto;
+  border-spacing: 0;
+}
+
+p, li, h1 {
+  text-align: center;
+}
+
+.publicCheckbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
 }

@@ -9,14 +9,20 @@
 {% block body %}
   <div class="container">
     <h1>Public Chest</h1>
-    <ul>
+    <table>
+      <tr>
+        <th>Filename</th>
+        <th>Size</th>
+        <th>Date</th>
+      <tr>
       {% for file in publicUploads %}
-        <li>
-          <a href="/uploads/{{ file.filename }}" target="_blank">{{ file.original_filename }}</a>
-          <small>uploaded {{ file.create_time | time_format | escape }}</small>
-        </li>
+        <tr>
+          <td><a href="/uploads/{{ file.filename }}" target="_blank">{{ file.original_filename }}</a></td>
+          <td>{{ file.size | formatBytes }}</td>
+          <td>{{ file.create_time | time_format | escape }}</td>
+        </tr>
       {% endfor %}
-    </ul>
+    </table>
     {{ nav("public") }}
   </div>
 {% endblock %}

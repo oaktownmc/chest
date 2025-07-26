@@ -110,4 +110,3 @@ fileInput.addEventListener("change", () => {
     updateDropText(fileInput.files[0]);
   }
 });
-

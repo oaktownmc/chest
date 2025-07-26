@@ -33,8 +33,18 @@ const env = nunjucks.configure("views", {
 });
 
 env.addFilter("time_format", function(obj) {
-  return new Date(secondsToMillis(obj)).toDateString();
+  const formatter = new Intl.DateTimeFormat('en-US', {year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short"});
+  return formatter.format(new Date(secondsToMillis(obj)));
 });
+
+env.addFilter("formatBytes", function(bytes) {
+  if (!bytes) return "0 B";
+  const units = ["B", "KB", "MB", "GB", "TB"];
+  const index = Math.floor(Math.log(bytes) / Math.log(1024));
+  const size = bytes / Math.pow(1024, index);
+  return `${size.toFixed(index === 0 ? 0 : 2)} ${units[index]}`;
+});
+
 
 const uid = () => {
   const hex = Math.floor(new Date() / 1000).toString(16);
@@ -75,15 +85,25 @@ app.get("/rules", (req, res) => {
 });
 
 app.get("/public", (req, res) => {
-  const publicUploads = database.prepare(`
+  const publicUploadsStmt = database.prepare(`
     SELECT *
     FROM uploads
     WHERE is_public == 1
     ORDER BY create_time ${req.query.reverse === "true" ? "" : "DESC"}
   `);
-  console.log(publicUploads.all());
-  res.render("pages/public", { publicUploads: publicUploads.all() });
+  const publicUploads = publicUploadsStmt.all();
+  publicUploads.forEach(upload => {
+    try {
+      const stats = fs.statSync(path.join(__dirname, "uploads", upload.filename));
+      upload.size = stats.size; 
+    } catch (err) {
+      console.error(`File not found or error reading size for ${upload.filename}:`, err);
+      upload.size = 0;
+    }
+  });
+  res.render("pages/public", { publicUploads });
 });
+
 
 app.post("/upload", upload.single("file"), (req, res) => {
   if (!req.file) {
