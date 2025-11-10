@@ -1,4 +1,4 @@
-# <img src="https://github.com/oaktownmc/chest/blob/master/static/oakchest.png?raw=true" alt="oak chest" height="60" />
+# <img src="https://github.com/oaktownmc/chest/blob/master/static/oakchest.gif?raw=true" alt="oak chest" height="80" />
 a free file sharing service! source code for https://chest.oaktown.cc
 ## self-hosting
 you will need nginx. here is the server config:
@@ -30,3 +30,4 @@ to start the server, run:
 node server.js
 ```
 the server will start and host at http://localhost:3000.
+
