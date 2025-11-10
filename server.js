@@ -29,15 +29,22 @@ app.set("view engine", "njk");
 
 const env = nunjucks.configure("views", {
   autoescape: true,
-  express: app
+  express: app,
 });
 
-env.addFilter("time_format", function(obj) {
-  const formatter = new Intl.DateTimeFormat('en-US', {year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short"});
+env.addFilter("time_format", function (obj) {
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  });
   return formatter.format(new Date(secondsToMillis(obj)));
 });
 
-env.addFilter("formatBytes", function(bytes) {
+env.addFilter("formatBytes", function (bytes) {
   if (!bytes) return "0 B";
   const units = ["B", "KB", "MB", "GB", "TB"];
   const index = Math.floor(Math.log(bytes) / Math.log(1024));
@@ -45,11 +52,21 @@ env.addFilter("formatBytes", function(bytes) {
   return `${size.toFixed(index === 0 ? 0 : 2)} ${units[index]}`;
 });
 
-
 const uid = () => {
   const hex = Math.floor(new Date() / 1000).toString(16);
-  const map = { "0":"A", "1":"B", "2":"C", "3":"D", "4":"E", "5":"F", "6":"G", "7":"H", "8":"I", "9":"J" };
-  return [...hex].map(c => map[c] || c).join("");
+  const map = {
+    0: "A",
+    1: "B",
+    2: "C",
+    3: "D",
+    4: "E",
+    5: "F",
+    6: "G",
+    7: "H",
+    8: "I",
+    9: "J",
+  };
+  return [...hex].map((c) => map[c] || c).join("");
 };
 
 const generateName = (filename) => {
@@ -58,18 +75,18 @@ const generateName = (filename) => {
   return `${basename}_${uid()}${ext}`;
 };
 
-const millisToSeconds = ms => Math.floor(ms / 1000); 
-const secondsToMillis = secs => Math.floor(secs * 1000); 
+const millisToSeconds = (ms) => Math.floor(ms / 1000);
+const secondsToMillis = (secs) => Math.floor(secs * 1000);
 const getUnixTime = () => millisToSeconds(new Date().getTime());
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "uploads/"),
-  filename: (req, file, cb) => cb(null, generateName(file.originalname))
+  filename: (req, file, cb) => cb(null, generateName(file.originalname)),
 });
 
 const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 * 1024 }
+  limits: { fileSize: 5 * 1024 * 1024 * 1024 },
 });
 
 if (!fs.existsSync("uploads/")) {
@@ -85,25 +102,41 @@ app.get("/rules", (req, res) => {
 });
 
 app.get("/public", (req, res) => {
-  const publicUploadsStmt = database.prepare(`
-    SELECT *
-    FROM uploads
-    WHERE is_public == 1
-    ORDER BY create_time ${req.query.reverse === "true" ? "" : "DESC"}
+  const page = parseInt(req.query.page) || 1;
+  const limit = 10;
+  const offset = (page - 1) * limit;
+
+  const totalCountStmt = database.prepare(`
+    SELECT COUNT(*) AS count FROM uploads WHERE is_public = 1
   `);
-  const publicUploads = publicUploadsStmt.all();
-  publicUploads.forEach(upload => {
+  const totalCount = totalCountStmt.get().count;
+  const totalPages = Math.ceil(totalCount / limit);
+
+  const publicUploadsStmt = database.prepare(`
+    SELECT * FROM uploads
+    WHERE is_public = 1
+    ORDER BY create_time ${req.query.reverse === "true" ? "" : "DESC"}
+    LIMIT ? OFFSET ?
+  `);
+  const publicUploads = publicUploadsStmt.all(limit, offset);
+
+  publicUploads.forEach((upload) => {
     try {
-      const stats = fs.statSync(path.join(__dirname, "uploads", upload.filename));
-      upload.size = stats.size; 
-    } catch (err) {
-      console.error(`File not found or error reading size for ${upload.filename}:`, err);
+      const stats = fs.statSync(
+        path.join(__dirname, "uploads", upload.filename),
+      );
+      upload.size = stats.size;
+    } catch {
       upload.size = 0;
     }
   });
-  res.render("pages/public", { publicUploads });
-});
 
+  res.render("pages/public", {
+    publicUploads,
+    page,
+    totalPages,
+  });
+});
 
 app.post("/upload", upload.single("file"), (req, res) => {
   if (!req.file) {
@@ -114,7 +147,7 @@ app.post("/upload", upload.single("file"), (req, res) => {
 
   // kill your mouth
   const bans = config.bans || [];
-  const ban = bans.find(ban => ip.replace("::ffff:", "") === ban.ip);
+  const ban = bans.find((ban) => ip.replace("::ffff:", "") === ban.ip);
   if (ban) {
     return res.status(403).json({ error: "Banned.", reason: ban.reason || "" });
   }
@@ -124,19 +157,27 @@ app.post("/upload", upload.single("file"), (req, res) => {
 
   const logMessage = `[${timestamp.toISOString()}] ${ip} uploaded "${req.file.filename}"\n`;
   console.log(logMessage);
-  fs.appendFile("uploads.log", logMessage, err => {
+  fs.appendFile("uploads.log", logMessage, (err) => {
     if (err) console.error("Error writing to log file:", err);
   });
 
   const checkPublic = !!JSON.parse(req.body.publicChest);
-  const query = database.prepare("INSERT INTO uploads (filename, original_filename, ip, create_time, is_public) VALUES (?, ?, ?, ?, ?)");
-  query.run(req.file.filename, req.file.originalname, ip, secsSinceEpoch, checkPublic ? 1 : 0);
+  const query = database.prepare(
+    "INSERT INTO uploads (filename, original_filename, ip, create_time, is_public) VALUES (?, ?, ?, ?, ?)",
+  );
+  query.run(
+    req.file.filename,
+    req.file.originalname,
+    ip,
+    secsSinceEpoch,
+    checkPublic ? 1 : 0,
+  );
 
   let fileUrl = `${req.protocol}://${req.get("host")}/uploads/${encodeURIComponent(req.file.filename)}`;
   if (path.extname(req.file.filename).toLowerCase() === ".mp4") {
     fileUrl += "?v";
   }
-  
+
   res.json({ url: fileUrl });
 });
 

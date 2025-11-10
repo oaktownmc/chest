@@ -23,6 +23,37 @@
         </tr>
       {% endfor %}
     </table>
+    {% if totalPages > 1 %}
+      <div class="pagination">
+        {% if page > 1 %}
+          <a href="?page={{ page - 1 }}" class="prev">←</a>
+        {% endif %}
+
+        {% if totalPages <= 3 %}
+          {% set start = 1 %}
+        {% elseif page <= 2 %}
+          {% set start = 1 %}
+        {% elseif page >= totalPages - 1 %}
+          {% set start = totalPages - 2 %}
+        {% else %}
+          {% set start = page - 1 %}
+        {% endif %}
+
+        {% for p in range(start, start + 3) %}
+          {% if p <= totalPages %}
+            {% if p == page %}
+              <span class="current">{{ p }}</span>
+            {% else %}
+              <a href="?page={{ p }}">{{ p }}</a>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+
+        {% if page < totalPages %}
+          <a href="?page={{ page + 1 }}" class="next">→</a>
+        {% endif %}
+      </div>
+    {% endif %}
     {{ nav("public") }}
   </div>
 {% endblock %}

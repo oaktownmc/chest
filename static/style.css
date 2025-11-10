@@ -1,170 +1,202 @@
 @font-face {
-  font-family: "TF2";
-  src: url("/assets/fonts/TF2.woff") format("woff"),
-       url("/assets/fonts/TF2.woff2") format("woff2");
+    font-family: "TF2";
+    src:
+        url("/assets/fonts/TF2.woff") format("woff"),
+        url("/assets/fonts/TF2.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: "TF2 Secondary";
-  src: url("/assets/fonts/TF2Secondary.woff") format("woff"),
-       url("/assets/fonts/TF2Secondary.woff2") format("woff2");
+    font-family: "TF2 Secondary";
+    src:
+        url("/assets/fonts/TF2Secondary.woff") format("woff"),
+        url("/assets/fonts/TF2Secondary.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: "TF2 Build";
-  src: url("/assets/fonts/TF2Build.woff") format("woff"),
-       url("/assets/fonts/TF2Build.woff2") format("woff2");
+    font-family: "TF2 Build";
+    src:
+        url("/assets/fonts/TF2Build.woff") format("woff"),
+        url("/assets/fonts/TF2Build.woff2") format("woff2");
 }
 
 body {
-  font-family: "TF2 Secondary";
-  background-image: url("/assets/darkoak.png");
-  display: flex;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  color: #fff;
+    font-family: "TF2 Secondary";
+    background-image: url("/assets/darkoak.png");
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    color: #fff;
 }
 
-h1 {font-family: "TF2 Build";}
+h1 {
+    font-family: "TF2 Build";
+}
 
 .logo {
-  display: block;
-  width: 75%;
-  margin-bottom: 1rem;
-  margin-left: auto;
-  margin-right: auto;
+    display: block;
+    width: 75%;
+    margin-bottom: 1rem;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .container {
-  background-color: #333;
-  border-radius: 10px;
-  padding: 2rem;
-  width: 500px;
+    background-color: #333;
+    border-radius: 10px;
+    padding: 2rem;
+    width: 500px;
 }
 
 nav {
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 a {
-  color: green;
+    color: green;
 }
 
 a:hover {
-  color: yellow;
+    color: yellow;
 }
 
 a:active {
-  color: gold;
+    color: gold;
 }
 
 .nav-active {
-  font-weight: bold;
-  font-style: italic;
+    font-weight: bold;
+    font-style: italic;
 }
 
 #dropzone input[type="file"] {
-  display: none;
+    display: none;
 }
 
 #dropzone {
-  display: block;
-  background-color: #444;
-  border: 2px dashed #aaa;
-  border-radius: 8px;
-  padding: 2rem;
-  cursor: pointer;
-  text-align: center;
-  transition: background-color 0.2s, border-color 0.2s;
-  margin-bottom: 1rem;
+    display: block;
+    background-color: #444;
+    border: 2px dashed #aaa;
+    border-radius: 8px;
+    padding: 2rem;
+    cursor: pointer;
+    text-align: center;
+    transition:
+        background-color 0.2s,
+        border-color 0.2s;
+    margin-bottom: 1rem;
 }
 
 #dropzone.dragover {
-  background-color: #555;
-  border-color: white;
+    background-color: #555;
+    border-color: white;
 }
 
 #dropText {
-  font-size: 1rem;
-  color: #ccc;
-  line-height: 1.5;
+    font-size: 1rem;
+    color: #ccc;
+    line-height: 1.5;
 }
 
 .serverButton {
-  display: flex;
+    display: flex;
 
-  outline: 0;
-  border: 0;
+    outline: 0;
+    border: 0;
 
-  cursor: pointer;
+    cursor: pointer;
 
-  margin-left: auto;
-  margin-right: auto;
+    margin-left: auto;
+    margin-right: auto;
 
-  border-radius: 50px;
-  background-image: linear-gradient(0deg, #612400, #9c5f3c);
+    border-radius: 50px;
+    background-image: linear-gradient(0deg, #612400, #9c5f3c);
 
-  box-shadow: 0 4px 11px 0 rgb(37 44 97 / 15%),
-              0 1px 3px 0 rgb(93 100 148 / 20%);
+    box-shadow:
+        0 4px 11px 0 rgb(37 44 97 / 15%),
+        0 1px 3px 0 rgb(93 100 148 / 20%);
 
-  transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
 
-  justify-content: center;
-  align-items: center;
+    justify-content: center;
+    align-items: center;
 
-  font-family: "TF2";
-  font-size: large;
-  font-weight: 600;
-  color: #fff;
+    font-family: "TF2";
+    font-size: large;
+    font-weight: 600;
+    color: #fff;
 
-	text-decoration: none;
+    text-decoration: none;
 
-  user-select: none;
+    user-select: none;
 }
 
 .serverButton:hover {
-  box-shadow: 0 8px 22px 0 rgb(37 44 97 / 15%),
-              0 4px 6px 0 rgb(93 100 148 / 20%);
-	text-shadow: 0px 0px 5px currentColor;
+    box-shadow:
+        0 8px 22px 0 rgb(37 44 97 / 15%),
+        0 4px 6px 0 rgb(93 100 148 / 20%);
+    text-shadow: 0px 0px 5px currentColor;
 }
 
 .serverButton:active {
-	filter: brightness(0.85);
-	transform: translateY(2px);
+    filter: brightness(0.85);
+    transform: translateY(2px);
 }
 
 #result {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  word-break: break-all;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    word-break: break-all;
 }
 
-td, th {
-  text-align: center;
-  padding-bottom: 7px;
-  padding-top: 7px;
+td,
+th {
+    text-align: center;
+    padding-bottom: 7px;
+    padding-top: 7px;
 }
 
-tr:nth-child(even), th {
-  background-color: #222;
+tr:nth-child(even),
+th {
+    background-color: #222;
 }
 
 table {
-  margin: auto;
-  border-spacing: 0;
+    margin: auto;
+    border-spacing: 0;
 }
 
-p, li, h1 {
-  text-align: center;
+p,
+li,
+h1 {
+    text-align: center;
 }
 
 .publicCheckbox {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+}
+
+.pagination {
+    margin-top: 1em;
+    display: flex;
+    gap: 0.5em;
+    justify-content: center;
+    align-items: center;
+}
+.pagination a,
+.pagination span {
+    padding: 0.4em 0.8em;
+    border-radius: 6px;
+    text-decoration: none;
+}
+.pagination .current {
+    color: green;
+    font-weight: bold;
+    font-style: italic;
 }
